@@ -23,8 +23,8 @@ public class ImageRecognition {
             nnet = (MultiLayerPerceptron) NeuralNetwork.load("MyImageRecognition.nnet");
         } catch (Exception e) {
             if (nnet == null){
-                nnet = new MultiLayerPerceptron(TransferFunctionType.TANH, 900, 12, 1);
-                nnet.getLearningRule().setMaxIterations(10000);
+                nnet = new MultiLayerPerceptron(TransferFunctionType.TANH, 900, 15, 1);
+                nnet.getLearningRule().setMaxIterations(3000);
                 learn();
                 learnTest();
             }
@@ -62,18 +62,19 @@ public class ImageRecognition {
         for (String rockPhotoName : rockPhotosName) {
             System.out.println("Load rock photo: " + rockPhotoName);
             double[] input = getInputFromFileName("photo/rock/" + rockPhotoName);
-            dataSet.addRow(input, new double[]{-1.0});
+            dataSet.addRow(input, new double[]{Sign.ROCK.toDouble()});
         }
         for (String paperPhotoName : paperPhotosName) {
             System.out.println("Load paper photo: " + paperPhotoName);
             double[] input = getInputFromFileName("photo/paper/" + paperPhotoName);
-            dataSet.addRow(input, new double[]{0.0});
+            dataSet.addRow(input, new double[]{Sign.PAPER.toDouble()});
         }
         for (String scissorPhotoName : scissorPhotosName) {
             System.out.println("Load scissor photo: " + scissorPhotoName);
             double[] input = getInputFromFileName("photo/scissor/" + scissorPhotoName);
-            dataSet.addRow(input, new double[]{1.0});
+            dataSet.addRow(input, new double[]{Sign.SCISSORS.toDouble()});
         }
+        dataSet.shuffle();
         nnet.learn(dataSet);
         System.out.println("Learn end\n");
     }
@@ -97,14 +98,14 @@ public class ImageRecognition {
 
         for (String rockPhotoName : rockPhotosName) {
             Sign sign = recognizeImage(new File("photo/rock/" + rockPhotoName));
-            System.out.println("Test rock photo: " + rockPhotoName + ": " + sign);
+            System.out.println("Test rock: " + rockPhotoName + ": " + sign);
             numberOfTest++;
             if (sign == Sign.ROCK)
                 correctValue++;
         }
         for (String paperPhotoName : paperPhotosName) {
             Sign sign = recognizeImage(new File("photo/paper/" + paperPhotoName));
-            System.out.println("Test rock paper: " + paperPhotoName + ": " + sign);
+            System.out.println("Test paper: " + paperPhotoName + ": " + sign);
             numberOfTest++;
             if (sign == Sign.PAPER)
                 correctValue++;

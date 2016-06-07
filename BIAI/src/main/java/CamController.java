@@ -1,5 +1,4 @@
 import com.github.sarxos.webcam.Webcam;
-import com.github.sarxos.webcam.WebcamPanel;
 import javafx.application.Platform;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -7,11 +6,15 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import pl.RockPaperScissors.service.ImageRecognition;
+import pl.RockPaperScissors.service.MainGameNetwork;
+import pl.RockPaperScissors.service.Sign;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Mateusz on 2016-06-01.
@@ -23,8 +26,14 @@ public class CamController {
     private BufferedImage grabbedImage;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
     private Image imageQuestionMark = new Image("pytajnik.jpg");
+    private ImageRecognition imageRecognition = new ImageRecognition();
+    private MainGameNetwork mainGameNetwork;
 
-    public void findCamera( ImageView imgWebCamView ) {
+    public CamController(MainGameNetwork mainGameNetwork) {
+        this.mainGameNetwork = mainGameNetwork;
+    }
+
+    public void findCamera(ImageView imgWebCamView) {
 
         webcam = Webcam.getDefault();
 
@@ -100,25 +109,31 @@ public class CamController {
         imgWebCamView.imageProperty().bind(imageProperty);
     }
 
-    public void endGame(ImageView imgWebCamView){
+    public void endGame(ImageView imgWebCamView) {
         stopCamera = true;
         imgWebCamView.imageProperty().unbind();
         imgWebCamView.setImage(imageQuestionMark);
         webcam.close();
+        imageRecognition.saveNetwork();
         // computerChoiceImageView.setStyle("-fx-image: url('blank.jpg')");   fajnie zamienia ten drugi imageview
     }
 
 
     public void takePicture() {
         webcam.open();
-        stopCamera = true;
+//        stopCamera = true;
         BufferedImage image = webcam.getImage();
         // save image to PNG file
+        File file = new File(new Date().getTime() + ".jpg");
         try {
-            ImageIO.write(image, "PNG", new File("test.png"));
+            ImageIO.write(image, "JPG", file);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Sign sign = imageRecognition.recognizeImage(file);
+        System.out.println(sign);
+        mainGameNetwork.setPlayerMove(sign);
+//        imageRecognition.saveImage(file, Sign.ROCK);
     }
 
 }

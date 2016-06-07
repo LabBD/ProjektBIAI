@@ -1,9 +1,12 @@
 package pl.RockPaperScissors.service;
 
 import org.neuroph.core.data.DataSet;
+import org.neuroph.core.data.DataSetRow;
 import org.neuroph.core.exceptions.NeurophException;
 import org.neuroph.nnet.MultiLayerPerceptron;
 import org.neuroph.util.TransferFunctionType;
+
+import java.util.Arrays;
 
 /**
  * Created by Kamil S on 2016-06-07.
@@ -47,7 +50,19 @@ public class MainGameNetwork {
         round++;
 
     }
+    public void showNeuralNetworkTest() {
 
+        for (DataSetRow dataRow : trainingSet.getRows()) {
+
+            neuralNetwork.setInput(dataRow.getInput());
+            neuralNetwork.calculate();
+            double[] networkOutput = neuralNetwork.getOutput();
+            System.out.print("Input: " + Arrays.toString(dataRow.getInput())+ " Desired output: "+Arrays.toString(dataRow.getDesiredOutput()));
+            System.out.println(" Output: " + Arrays.toString(networkOutput));
+
+        }
+
+    }
 
     public void setPlayerId(double playerId) {
         actualGameRow[0] = playerId;

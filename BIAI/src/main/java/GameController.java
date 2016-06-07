@@ -9,6 +9,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+import pl.RockPaperScissors.service.MainGameNetwork;
+import pl.RockPaperScissors.service.Sign;
 
 import java.util.Date;
 import java.util.Random;
@@ -39,18 +41,23 @@ public class GameController {
     @FXML
     Label counter;
 
-    CamController camController = new CamController();
+    MainGameNetwork mainGameNetwork = new MainGameNetwork();
+    CamController camController = new CamController(mainGameNetwork);
     Integer i = 0;
 
     @FXML
     private void initialize()
     {
+        mainGameNetwork.setPlayerId(1.0);
+        mainGameNetwork.setGameId(1.0);
+
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), ev -> {
             i++;
             counter.setText(i.toString());
         }));
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
+        mainGameNetwork.showNeuralNetworkTest();
     }
 
     public void findCamera() {
@@ -65,6 +72,7 @@ public class GameController {
         startCamButton.setDisable(false);
         endGameButton.setDisable(true);
         takePhotoButton.setDisable(true);
+        mainGameNetwork.save();
     }
 
 
@@ -74,14 +82,17 @@ public class GameController {
     }
 
     public void checkComputerSelect(){
+
+        Sign sign= mainGameNetwork.networkMove();
+
         Image computerChoice;
         Random generator = new Random();
         int computer;
 
         computer = generator.nextInt(3);
 
-        if( computer == 0 ) computerChoice = new Image("kamien.jpg");
-        else if ( computer == 1 ) computerChoice = new Image("papier.jpg");
+        if( sign == Sign.ROCK ) computerChoice = new Image("kamien.jpg");
+        else if ( sign == Sign.PAPER ) computerChoice = new Image("papier.jpg");
             else computerChoice = new Image("nozyce.jpg");
 
         computerChoiceImageView.setImage(computerChoice);
