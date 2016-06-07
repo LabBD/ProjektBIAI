@@ -37,7 +37,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
 
         Webcam webcam = Webcam.getDefault();
-        webcam.setViewSize(WebcamResolution.VGA.getSize());
+//        webcam.setViewSize(WebcamResolution.VGA.getSize());
 
         this.primaryStage = primaryStage;
         this.primaryStage.setTitle("Rock Paper Scissors Game");

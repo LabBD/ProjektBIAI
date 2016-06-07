@@ -113,7 +113,6 @@ public class CamController {
         webcam.open();
         stopCamera = true;
         BufferedImage image = webcam.getImage();
-
         // save image to PNG file
         try {
             ImageIO.write(image, "PNG", new File("test.png"));
