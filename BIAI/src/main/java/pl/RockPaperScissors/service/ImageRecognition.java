@@ -21,15 +21,22 @@ public class ImageRecognition {
     public ImageRecognition() {
         try {
             nnet = (MultiLayerPerceptron) NeuralNetwork.load("MyImageRecognition.nnet");
+            System.out.println("Load neural complete");
         } catch (Exception e) {
-            if (nnet == null){
+            if (nnet == null) {
                 nnet = new MultiLayerPerceptron(TransferFunctionType.TANH, 900, 15, 1);
                 nnet.getLearningRule().setMaxIterations(3000);
                 learn();
                 learnTest();
             }
         }
+    }
 
+    public void startLearningNeural() {
+        nnet = new MultiLayerPerceptron(TransferFunctionType.TANH, 900, 15, 1);
+        nnet.getLearningRule().setMaxIterations(3000);
+        learn();
+        learnTest();
     }
 
     private double[] getInputFromFile(File file) {
@@ -50,11 +57,11 @@ public class ImageRecognition {
         File rockFile = new File("photo/rock");
         File paperFile = new File("photo/paper");
         File scissorFile = new File("photo/scissor");
-        if(!rockFile.exists())
+        if (!rockFile.exists())
             rockFile.mkdirs();
-        if(!paperFile.exists())
+        if (!paperFile.exists())
             paperFile.mkdirs();
-        if(!scissorFile.exists())
+        if (!scissorFile.exists())
             scissorFile.mkdirs();
         String[] rockPhotosName = rockFile.list();
         String[] paperPhotosName = paperFile.list();
@@ -86,11 +93,11 @@ public class ImageRecognition {
         File rockFile = new File("photo/rock");
         File paperFile = new File("photo/paper");
         File scissorFile = new File("photo/scissor");
-        if(!rockFile.exists())
+        if (!rockFile.exists())
             rockFile.mkdirs();
-        if(paperFile.exists())
+        if (paperFile.exists())
             paperFile.mkdirs();
-        if(!scissorFile.exists())
+        if (!scissorFile.exists())
             scissorFile.mkdirs();
         String[] rockPhotosName = rockFile.list();
         String[] paperPhotosName = paperFile.list();
@@ -148,7 +155,7 @@ public class ImageRecognition {
         image.renameTo(new File(path + image.getName()));
     }
 
-    public void saveNetwork(){
+    public void saveNetwork() {
         nnet.save("MyImageRecognition.nnet");
     }
 }

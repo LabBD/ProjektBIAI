@@ -4,6 +4,7 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.fxml.FXML;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import pl.RockPaperScissors.service.ImageRecognition;
@@ -26,11 +27,12 @@ public class CamController {
     private BufferedImage grabbedImage;
     private ObjectProperty<Image> imageProperty = new SimpleObjectProperty<Image>();
     private Image imageQuestionMark = new Image("pytajnik.jpg");
-    private ImageRecognition imageRecognition = new ImageRecognition();
+    private ImageRecognition imageRecognition;
     private MainGameNetwork mainGameNetwork;
 
-    public CamController(MainGameNetwork mainGameNetwork) {
+    public CamController(MainGameNetwork mainGameNetwork, ImageRecognition imageRecognition) {
         this.mainGameNetwork = mainGameNetwork;
+        this.imageRecognition = imageRecognition;
     }
 
     public void findCamera(ImageView imgWebCamView) {
@@ -114,8 +116,7 @@ public class CamController {
         imgWebCamView.imageProperty().unbind();
         imgWebCamView.setImage(imageQuestionMark);
         webcam.close();
-        imageRecognition.saveNetwork();
-        // computerChoiceImageView.setStyle("-fx-image: url('blank.jpg')");   fajnie zamienia ten drugi imageview
+//        imageRecognition.saveNetwork();
     }
 
 
@@ -132,8 +133,61 @@ public class CamController {
         }
         Sign sign = imageRecognition.recognizeImage(file);
         System.out.println(sign);
-        mainGameNetwork.setPlayerMove(sign);
-//        imageRecognition.saveImage(file, Sign.ROCK);
+//        mainGameNetwork.setPlayerMove(sign);
+
+        imageRecognition.saveImage(file, Sign.PAPER);
     }
+
+    public void takePicture(Sign signTmp) {
+
+        webcam.open();
+        BufferedImage image = webcam.getImage();
+        // save image to PNG file
+        File file = new File(new Date().getTime() + ".jpg");
+        try {
+            ImageIO.write(image, "JPG", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Sign sign = imageRecognition.recognizeImage(file);
+        System.out.println(sign);
+
+        if ( signTmp == Sign.ROCK ) imageRecognition.saveImage(file, Sign.ROCK);
+        else if  ( signTmp == Sign.PAPER ) imageRecognition.saveImage(file, Sign.PAPER);
+        else imageRecognition.saveImage(file, Sign.SCISSORS);
+    }
+
+    public Sign checkSignByNeural() {
+
+        webcam.open();
+        BufferedImage image = webcam.getImage();
+        File file = new File("test.jpg");
+        try {
+            ImageIO.write(image, "JPG", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Sign sign = imageRecognition.recognizeImage(file);
+
+        return sign;
+    }
+
+    public Sign getSignFromUser() {
+
+        webcam.open();
+        stopCamera = true;
+        BufferedImage image = webcam.getImage();
+        File file = new File("test.jpg");
+        try {
+            ImageIO.write(image, "JPG", file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Sign sign = imageRecognition.recognizeImage(file);
+
+        return sign;
+    }
+
+
 
 }

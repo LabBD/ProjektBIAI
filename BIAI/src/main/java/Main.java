@@ -33,6 +33,14 @@ public class Main extends Application {
         mainPane.setCenter(pane);
     }
 
+    public static void backToMainView() throws IOException {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main.class.getResource("login.fxml"));
+        Pane pane = loader.load();
+        mainPane.setCenter(pane);
+    }
+
+
     @Override
     public void start(Stage primaryStage) throws Exception{
 

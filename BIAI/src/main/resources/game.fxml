@@ -28,9 +28,6 @@
    <center>
       <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="startCamButton" layoutX="588.0" layoutY="303.0" mnemonicParsing="false" onAction="#findCamera" prefHeight="45.0" prefWidth="82.0" text="Start Cam Stream" textAlignment="CENTER" wrapText="true" />
-            <Button fx:id="endGameButton" disable="true" layoutX="755.0" layoutY="303.0" mnemonicParsing="false" onAction="#endGame" prefHeight="45.0" prefWidth="82.0" text="End Game" />
-            <Button fx:id="takePhotoButton" disable="true" layoutX="672.0" layoutY="303.0" mnemonicParsing="false" onAction="#takePicture" prefHeight="45.0" prefWidth="82.0" text="Take Photo" textAlignment="CENTER" wrapText="true" />
             <Button layoutX="63.0" layoutY="303.0" mnemonicParsing="false" onMousePressed="#checkComputerSelect" onMouseReleased="#exitCheckComputerSelect" prefHeight="45.0" prefWidth="250.0" text="Check !" textAlignment="CENTER" wrapText="true" />
             <ImageView fx:id="imgWebCamCapturedImage" fitHeight="200.0" fitWidth="250.0" layoutX="588.0" layoutY="103.0" pickOnBounds="true">
                <image>
@@ -41,16 +38,88 @@
                   <Image url="@pytajnik.jpg" />
                </image>
             </ImageView>
-            <Label layoutX="266.0" layoutY="434.0" text="Tu będzie pisać czy wygrałeś czy nie ;D">
+            <Label fx:id="counter" alignment="CENTER" layoutX="371.0" layoutY="177.0" prefHeight="39.0" prefWidth="160.0" text="Time" textAlignment="CENTER">
+               <font>
+                  <Font name="Nyala" size="38.0" />
+               </font>
+            </Label>
+            <CheckBox fx:id="developerModeCheckBox" layoutX="21.0" layoutY="494.0" mnemonicParsing="false" onAction="#turnOnDeveloperMode" text="Developer MODE" />
+            <Button fx:id="startNormalCamStreamButton" layoutX="150.0" layoutY="482.0" mnemonicParsing="false" onAction="#startNormalCamStream" prefHeight="40.0" prefWidth="90.0" text="Start Normal Cam Stream" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="rockPhotoToNeuralButton" layoutX="240.0" layoutY="482.0" mnemonicParsing="false" onAction="#rockPhotoToNeural" prefHeight="40.0" prefWidth="90.0" text="Rock Photo to Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="scissorsPhotoToNeuralButton" layoutX="330.0" layoutY="482.0" mnemonicParsing="false" onAction="#scissorsPhotoToNeural" prefHeight="40.0" prefWidth="90.0" text="Scissors Photo to Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="paperPhotoToNeuralButton" layoutX="420.0" layoutY="482.0" mnemonicParsing="false" onAction="#paperPhotoToNeural" prefHeight="40.0" prefWidth="90.0" text="Paper Photo to Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="learnPhotoNeuralButton" layoutX="510.0" layoutY="482.0" mnemonicParsing="false" onAction="#learnPhotoNeural" prefHeight="40.0" prefWidth="90.0" text="Learn Photo Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="savePhotoNeuralButton" layoutX="600.0" layoutY="482.0" mnemonicParsing="false" onAction="#savePhotoNeural" prefHeight="40.0" prefWidth="90.0" text="Save Photo Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font></Button>
+            <Button fx:id="endCameraStreamButton" layoutX="690.0" layoutY="482.0" mnemonicParsing="false" onAction="#endCameraStream" prefHeight="40.0" prefWidth="90.0" text="End Camera Stream" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button fx:id="startGameButton" layoutX="588.0" layoutY="303.0" mnemonicParsing="false" onAction="#startGame" prefHeight="45.0" prefWidth="250.0" text="Start Game" />
+            <Label layoutX="63.0" layoutY="62.0" text="Computer : ">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="588.0" layoutY="62.0" text="You : ">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="neuralScoreLabel" layoutX="167.0" layoutY="62.0" text="0">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="userScoreLabel" layoutX="638.0" layoutY="62.0" text="0">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="372.0" layoutY="29.0" text="Number of game: ">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label fx:id="countOfGamesLabel" layoutX="424.0" layoutY="51.0" text="0">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Label layoutX="449.0" layoutY="51.0" text="/  6">
+               <font>
+                  <Font name="Nyala" size="23.0" />
+               </font>
+            </Label>
+            <Button fx:id="checkSignInNeuralButton" layoutX="780.0" layoutY="482.0" mnemonicParsing="false" onAction="#checkSignInNeural" prefHeight="40.0" prefWidth="90.0" text="Check Sign in Neural" textAlignment="CENTER" visible="false" wrapText="true">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Label fx:id="resultLabel" alignment="CENTER" layoutX="252.0" layoutY="382.0" prefHeight="39.0" prefWidth="399.0" text="Results" textAlignment="CENTER">
                <font>
                   <Font name="Nyala" size="25.0" />
                </font>
             </Label>
-            <Label fx:id="counter" alignment="CENTER" layoutX="370.0" layoutY="213.0" prefHeight="26.0" prefWidth="160.0" text="Odliczanie" textAlignment="CENTER">
-               <font>
-                  <Font name="Nyala" size="27.0" />
-               </font>
-            </Label>
+            <Button fx:id="backButton" layoutX="361.0" layoutY="421.0" mnemonicParsing="false" onAction="#backToLogin" prefHeight="25.0" prefWidth="177.0" text="Back to Main Window" visible="false" />
          </children>
          <opaqueInsets>
             <Insets />
