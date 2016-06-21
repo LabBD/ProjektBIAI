@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import pl.RockPaperScissors.service.MainGameNetwork;
 
 import java.io.IOException;
 
@@ -29,6 +30,7 @@ public class LoginController {
         if (nicknameTextField.getText().equals("")) {
             errorLabelInLogin.setText("Please insert your nickname.");
         } else {
+            MainGameNetwork.nickname=nicknameTextField.getText();
             main.showGameView();
         }
     }

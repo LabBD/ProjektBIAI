@@ -78,8 +78,6 @@ public class GameController {
 
     @FXML
     private void initialize() {
-        mainGameNetwork.setPlayerId(1.0);
-        mainGameNetwork.setGameId(1.0);
         countOfGames = 0;
         userScore = 0;
         neuralScore = 0;
